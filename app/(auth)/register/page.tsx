@@ -18,7 +18,7 @@ export default function RegisterPage() {
           height={100}
           className="mb-5"
         />
-        <h1 className="text-3xl font-extrabold text-lime-600 mb-4">
+        <h1 className="text-center text-2xl sm:text-3xl font-extrabold text-lime-600 mb-4">
           Rick and Morty Universe
         </h1>
       </div>
