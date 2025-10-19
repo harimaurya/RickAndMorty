@@ -1,42 +1,33 @@
-"use client";
-
 import { Character } from "@/types/characters";
 import { Card } from "../ui/card";
 import Image from "next/image";
-import { useRouter } from "next/dist/client/components/navigation";
+import Link from "next/link";
 
 interface CharacterCardProps {
   character: Character;
 }
 export default function CharacterCard({ character }: CharacterCardProps) {
-  const router = useRouter();
-
-  const handleCardClick = () => {
-    router.push(`/characters/${character.id}`);
-  };
-
   return (
-    <Card
-      className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4"
-      onClick={handleCardClick}
-    >
-      <div className="relative h-50 w-auto">
-        <Image
-          src={character.image}
-          alt={character.name}
-          className="w-full h-auto aspect-square object-cover"
-          fill
-          sizes="90vw (max-width: 768px) 50vw, (max-width: 1200px) 33vw"
-        />
-      </div>
-      <div className="px-4">
-        <h3 className="font-semibold truncate dark:text-white">
-          {character.name}
-        </h3>
-        <p className="text-xs text-gray-500 dark:text-gray-100">
-          {character.species}
-        </p>
-      </div>
-    </Card>
+    <Link href={`/characters/${character.id}`} role="link">
+      <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4">
+        <div className="relative h-50 w-auto">
+          <Image
+            src={character.image}
+            alt={character.name}
+            className="w-full h-auto aspect-square object-cover"
+            fill
+            sizes="90vw (max-width: 768px) 50vw, (max-width: 1200px) 33vw"
+          />
+        </div>
+        <div className="px-4">
+          <h3 className="font-semibold truncate dark:text-white">
+            {character.name}
+          </h3>
+          <p className="text-xs text-gray-500 dark:text-gray-100">
+            {character.species}
+          </p>
+        </div>
+      </Card>
+    </Link>
   );
 }

@@ -16,6 +16,7 @@ export default function Paginations({
   return (
     <div className="flex flex-wrap justify-center items-center space-x-2 md:space-x-4 mt-8">
       <Button
+        aria-label="Previous page"
         variant="outline"
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -40,6 +41,7 @@ export default function Paginations({
           const isCurrent = page === currentPage;
           return (
             <Button
+              aria-label={`Character page number ${page}`}
               key={page}
               variant={isCurrent ? "default" : "ghost"}
               onClick={() => handlePageChange(+page)}
@@ -54,6 +56,7 @@ export default function Paginations({
       </div>
 
       <Button
+        aria-label="Next page"
         variant="outline"
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
