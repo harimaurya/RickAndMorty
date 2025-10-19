@@ -37,7 +37,7 @@ export default async function CharactersPage({
 
   return (
     <div className="container mx-auto px-4">
-      <PageTitle>Characters</PageTitle>
+      <PageTitle>Information</PageTitle>
       <p className="text-lg text-gray-800 dark:text-gray-50 mb-4">
         Explore characters from the Rick and Morty universe. Select any
         character to see additional information.

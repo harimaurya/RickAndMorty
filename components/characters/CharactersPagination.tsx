@@ -16,7 +16,7 @@ export default function CharactersPagination({
 
   const handlePageChange = (page: number) => {
     // Update the URL with the new page number
-    router.push(`/characters?page=${page}`);
+    router.push(`/information?page=${page}`);
   };
   return (
     <Paginations

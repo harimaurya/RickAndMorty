@@ -8,7 +8,7 @@ interface CharacterCardProps {
 }
 export default function CharacterCard({ character }: CharacterCardProps) {
   return (
-    <Link href={`/characters/${character.id}`} role="link">
+    <Link href={`/information/${character.id}`} role="link">
       <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4">
         <div className="relative h-50 w-auto">
           <Image

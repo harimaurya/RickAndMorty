@@ -22,7 +22,10 @@ export default function RegisterPage() {
           Rick and Morty Universe
         </h1>
       </div>
-      <ProfileForm isRegister onSuccess={() => router.replace("/characters")} />
+      <ProfileForm
+        isRegister
+        onSuccess={() => router.replace("/information")}
+      />
     </div>
   );
 }

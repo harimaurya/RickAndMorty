@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 export default function SiteHeader() {
   const navItems = [
-    { href: "/characters", label: "Characters" },
+    { href: "/information", label: "Information" },
     { href: "/profile", label: "Profile" },
   ];
 
