@@ -5,6 +5,8 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription } from "../ui/card";
 import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
 import { Input } from "../ui/input";
+import { useRouter } from "next/navigation";
+import { useUserContext } from "@/store/UserContext";
 
 interface ProfileFormProps {
   isRegister?: boolean;
@@ -21,29 +23,13 @@ export default function ProfileForm({
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const user = useUserContext();
+  const router = useRouter();
+
   useEffect(() => {
-    // Fetch existing profile data on mount
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch("/api/register", {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-        });
-
-        const data = await res.json().catch(() => ({}));
-
-        if (res.ok) {
-          setUsername(data.username || "");
-          setJobTitle(data.jobTitle || "");
-        }
-      } catch {
-        // Handle fetch error silently
-      }
-    };
-
     if (!isRegister) {
-      fetchProfile();
+      setUsername(user?.username || "");
+      setJobTitle(user?.jobTitle || "");
     }
   }, []);
 
@@ -69,6 +55,7 @@ export default function ProfileForm({
       } else {
         setSuccess("Profile updated successfully!");
         if (onSuccess) onSuccess();
+        router.refresh();
       }
     } catch {
       setError("Network error");
