@@ -21,7 +21,7 @@ export default function Paginations({
         disabled={currentPage === 1}
         className="order-1"
       >
-        &larr; Previous
+        &larr;
       </Button>
 
       {/* Dynamic Page Numbers */}
@@ -59,7 +59,7 @@ export default function Paginations({
         disabled={currentPage === totalPages}
         className="order-3"
       >
-        Next &rarr;
+        &rarr;
       </Button>
     </div>
   );
