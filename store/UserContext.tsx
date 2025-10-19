@@ -4,8 +4,8 @@ import { Profile } from "@/types/profile";
 import { createContext, useContext } from "react";
 
 export const UserContext = createContext<Profile>({
-  username: "Hari Maurya",
-  jobTitle: "Frontend engineer",
+  username: "",
+  jobTitle: "",
 });
 
 export function useUserContext() {
