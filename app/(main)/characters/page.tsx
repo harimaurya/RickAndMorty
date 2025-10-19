@@ -38,6 +38,10 @@ export default async function CharactersPage({
   return (
     <div className="container mx-auto px-4">
       <PageTitle>Characters</PageTitle>
+      <p className="text-lg text-gray-800 dark:text-gray-50 mb-4">
+        Explore characters from the Rick and Morty universe. Select any
+        character to see additional information.
+      </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {characters.map((character) => (
           <CharacterCard key={character.id} character={character} />
