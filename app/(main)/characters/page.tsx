@@ -1,4 +1,5 @@
 import CharacterCard from "@/components/characters/CharacterCard";
+import CharactersPagination from "@/components/characters/CharactersPagination";
 import PageError from "@/components/shared/PageError";
 import PageTitle from "@/components/shared/PageTitle";
 import client from "@/lib/gql/apolloClient";
@@ -14,6 +15,7 @@ export default async function CharactersPage({
   const currentPage = page ? parseInt(page, 10) : 1;
 
   let characters: GetCharactersData["characters"]["results"] = [];
+  let totalPages = 1;
   let error: Error | null = null;
 
   try {
@@ -22,6 +24,7 @@ export default async function CharactersPage({
       variables: { page: currentPage },
     });
     characters = data?.characters?.results || [];
+    totalPages = data?.characters?.info?.pages || 1;
   } catch (e: unknown) {
     error = e as Error;
   }
@@ -40,6 +43,7 @@ export default async function CharactersPage({
           <CharacterCard key={character.id} character={character} />
         ))}
       </div>
+      <CharactersPagination currentPage={currentPage} totalPages={totalPages} />
     </div>
   );
 }
