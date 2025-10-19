@@ -1,4 +1,4 @@
-# Rick and Morty Explorer
+# Rick and Morty Universe
 
 A Next.js 15 app for browsing characters from the public Rick & Morty GraphQL API. The app requires a quick profile registration before accessing content, stores user info in a cookie, and supports both full-page and modal character detail views.
 
