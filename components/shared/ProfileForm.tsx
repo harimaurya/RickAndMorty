@@ -83,7 +83,9 @@ export default function ProfileForm({
     <Card className="w-full max-w-md p-6 mx-auto">
       {isRegister && (
         <CardDescription>
-          <p>Please enter below information to access the application.</p>
+          <p>
+            Please enter your details to explore the Rick and Morty universe!
+          </p>
         </CardDescription>
       )}
 
