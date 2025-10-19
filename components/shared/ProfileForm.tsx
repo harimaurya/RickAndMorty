@@ -31,7 +31,7 @@ export default function ProfileForm({
       setUsername(user?.username || "");
       setJobTitle(user?.jobTitle || "");
     }
-  }, []);
+  }, [isRegister, user]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
