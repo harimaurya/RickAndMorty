@@ -1,13 +1,25 @@
+"use client";
+
 import { Character } from "@/types/characters";
 import { Card } from "../ui/card";
 import Image from "next/image";
+import { useRouter } from "next/dist/client/components/navigation";
 
 interface CharacterCardProps {
   character: Character;
 }
 export default function CharacterCard({ character }: CharacterCardProps) {
+  const router = useRouter();
+
+  const handleCardClick = () => {
+    router.push(`/characters/${character.id}`);
+  };
+
   return (
-    <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4">
+    <Card
+      className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4"
+      onClick={handleCardClick}
+    >
       <div className="relative h-50 w-auto">
         <Image
           src={character.image}
