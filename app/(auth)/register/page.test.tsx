@@ -1,9 +1,9 @@
 import { describe, expect, test, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
-import MockProfileForm from "@/components/shared/ProfileForm.mock";
+import MockProfileForm from "@/components/shared/ProfileForm/ProfileForm.mock";
 
 // Mock Profile Form component
-vi.mock("@/components/shared/ProfileForm", () => ({
+vi.mock("@/components/shared/ProfileForm/ProfileForm", () => ({
   __esModule: true,
   default: MockProfileForm,
 }));

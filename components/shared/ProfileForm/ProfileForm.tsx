@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription } from "../ui/card";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
-import { Input } from "../ui/input";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardDescription } from "../../ui/card";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "../../ui/field";
+import { Input } from "../../ui/input";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/store/UserContext";
 
