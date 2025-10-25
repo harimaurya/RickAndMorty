@@ -8,7 +8,7 @@ import { Input } from "../ui/input";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/store/UserContext";
 
-interface ProfileFormProps {
+export interface ProfileFormProps {
   isRegister?: boolean;
   onSuccess?: () => void;
 }
