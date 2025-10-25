@@ -1,4 +1,7 @@
+import React from "react";
 import { vi } from "vitest";
+import { render as originalRender } from "@testing-library/react";
+import { MockUserContextProvider } from "@/store/MockUserContext";
 
 export const mockRouter = {
   push: vi.fn(),
@@ -10,4 +13,18 @@ export const mockRouter = {
   query: {},
 };
 
-export const mockFetch: typeof fetch = vi.fn();
+export const mockFetch = vi.fn();
+
+export const customRender = (
+  ui: React.ReactNode,
+  provider: React.JSXElementConstructor<{
+    children: React.ReactNode;
+  }>,
+  value: object = {},
+  options: object = {}
+) => {
+  const Wrapper = ({ children }: { children: React.ReactNode }) =>
+    React.createElement(provider, { value }, children);
+
+  return originalRender(ui, { wrapper: Wrapper, ...options });
+};

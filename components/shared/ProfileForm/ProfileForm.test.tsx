@@ -1,9 +1,14 @@
-import { describe, test, expect, beforeEach } from "vitest";
+import { describe, test, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfileForm from "./ProfileForm";
-import { mockFetch } from "@/test/utils/mock-helpers";
+import { customRender, mockFetch } from "@/test/utils/mock-helpers";
+import { MockUserContextProvider } from "@/store/MockUserContext";
 
 describe("ProfileForm", () => {
+  // Define the specific mock user data you expect to be pre-filled
+  const USERNAME = "testUser";
+  const JOBTITLE = "Software Developer";
+
   beforeEach(() => {
     mockFetch.mockReset();
     mockFetch.mockResolvedValue({
@@ -32,18 +37,16 @@ describe("ProfileForm", () => {
 
     const usernameInput = screen.getByLabelText(/username/i);
     const jobtitleInput = screen.getByLabelText(/job title/i);
-    const newUserName = "Rick Sanchez";
-    const newJobTitle = "Interdimensional Cable Guy";
 
     fireEvent.change(usernameInput, {
-      target: { value: newUserName },
+      target: { value: USERNAME },
     });
     fireEvent.change(jobtitleInput, {
-      target: { value: newJobTitle },
+      target: { value: JOBTITLE },
     });
 
-    expect(usernameInput).toHaveValue(newUserName);
-    expect(jobtitleInput).toHaveValue(newJobTitle);
+    expect(usernameInput).toHaveValue(USERNAME);
+    expect(jobtitleInput).toHaveValue(JOBTITLE);
 
     fireEvent.submit(screen.getByRole("button", { name: /save changes/i }));
 
@@ -57,5 +60,29 @@ describe("ProfileForm", () => {
     expect(
       screen.getByRole("button", { name: /let's go!/i })
     ).toBeInTheDocument();
+  });
+
+  test("should render form with pre-filled values", () => {
+    customRender(<ProfileForm isRegister={false} />, MockUserContextProvider, {
+      username: USERNAME,
+      jobTitle: JOBTITLE,
+    });
+
+    const usernameInput = screen.getByLabelText(/username/i);
+    const jobtitleInput = screen.getByLabelText(/job title/i);
+
+    expect(usernameInput).toHaveValue(USERNAME);
+    expect(jobtitleInput).toHaveValue(JOBTITLE);
+  });
+
+  test("should render form with empty pre-filled values", () => {
+    vi.resetAllMocks();
+    customRender(<ProfileForm isRegister={false} />, MockUserContextProvider);
+
+    const usernameInput = screen.getByLabelText(/username/i);
+    const jobtitleInput = screen.getByLabelText(/job title/i);
+
+    expect(usernameInput).toHaveValue("");
+    expect(jobtitleInput).toHaveValue("");
   });
 });
