@@ -37,3 +37,8 @@ vi.mock("next/image", async () => {
     default: MockNextImage,
   };
 });
+
+// Mock next/headers
+vi.mock("next/headers", () => ({
+  cookies: vi.fn(),
+}));
