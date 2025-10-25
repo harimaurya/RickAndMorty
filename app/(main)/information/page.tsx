@@ -2,9 +2,38 @@ import CharacterCard from "@/components/characters/CharacterCard";
 import CharactersPagination from "@/components/characters/CharactersPagination";
 import PageError from "@/components/shared/PageError";
 import PageTitle from "@/components/shared/PageTitle";
+import { DEFAULT_SEO } from "@/constants/seo";
 import client from "@/lib/gql/apolloClient";
 import { GET_CHARACTERS_QUERY } from "@/lib/gql/queries";
 import { GetCharactersData } from "@/types/characters";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { page?: string };
+}): Promise<Metadata> {
+  const page = (await searchParams)?.page || "1";
+  const pageNum = Number.parseInt(page, 10) || 1;
+  const title = pageNum > 1 ? `Information — Page ${pageNum}` : "Information";
+  const canonical =
+    pageNum > 1 ? `/information?page=${pageNum}` : "/information";
+
+  return {
+    title,
+    description: DEFAULT_SEO.description.information,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description: DEFAULT_SEO.description.information,
+      url: canonical,
+    },
+    twitter: {
+      title,
+      description: DEFAULT_SEO.description.information,
+    },
+  };
+}
 
 export default async function CharactersPage({
   searchParams,
