@@ -1,4 +1,4 @@
-import { getPaginationPages } from "@/lib/utils";
+import { getPaginationPages } from "@/lib/utils/utils";
 import { Button } from "../ui/button";
 
 interface PaginationsProps {
