@@ -1,7 +1,11 @@
-import React from "react";
+import { createElement, JSXElementConstructor, ReactNode } from "react";
 import { vi } from "vitest";
 import { render as originalRender } from "@testing-library/react";
-import { MockUserContextProvider } from "@/store/MockUserContext";
+
+interface CustomProviderProps<V extends object> {
+  children: React.ReactNode;
+  value: V;
+}
 
 export const mockRouter = {
   push: vi.fn(),
@@ -15,16 +19,17 @@ export const mockRouter = {
 
 export const mockFetch = vi.fn();
 
-export const customRender = (
-  ui: React.ReactNode,
-  provider: React.JSXElementConstructor<{
-    children: React.ReactNode;
-  }>,
-  value: object = {},
+export const customRender = <
+  V extends object,
+  P extends CustomProviderProps<V>
+>(
+  ui: ReactNode,
+  provider: JSXElementConstructor<P>,
+  value: V = {} as V,
   options: object = {}
 ) => {
-  const Wrapper = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(provider, { value }, children);
+  const Wrapper = ({ children }: { children: ReactNode }) =>
+    createElement(provider, { value, children } as P);
 
   return originalRender(ui, { wrapper: Wrapper, ...options });
 };

@@ -77,7 +77,10 @@ describe("ProfileForm", () => {
 
   test("should render form with empty pre-filled values", () => {
     vi.resetAllMocks();
-    customRender(<ProfileForm isRegister={false} />, MockUserContextProvider);
+    customRender(<ProfileForm isRegister={false} />, MockUserContextProvider, {
+      username: "",
+      jobTitle: "",
+    });
 
     const usernameInput = screen.getByLabelText(/username/i);
     const jobtitleInput = screen.getByLabelText(/job title/i);
