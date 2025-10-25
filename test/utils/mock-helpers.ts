@@ -9,3 +9,5 @@ export const mockRouter = {
   pathname: "/",
   query: {},
 };
+
+export const mockFetch: typeof fetch = vi.fn();

@@ -1,9 +1,11 @@
 // vitest.setup.ts
 import { afterEach, expect, vi } from "vitest";
+import "@testing-library/jest-dom/vitest";
+
 import * as matchers from "@testing-library/jest-dom/matchers";
 import { cleanup } from "@testing-library/react";
 import { ImageProps } from "next/image";
-import { mockRouter } from "./test/utils/mock-helpers";
+import { mockRouter, mockFetch } from "./test/utils/mock-helpers";
 
 afterEach(() => {
   cleanup();
@@ -42,3 +44,6 @@ vi.mock("next/image", async () => {
 vi.mock("next/headers", () => ({
   cookies: vi.fn(),
 }));
+
+// Mock Fetch API globally
+vi.stubGlobal("fetch", mockFetch);
