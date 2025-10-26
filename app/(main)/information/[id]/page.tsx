@@ -1,9 +1,9 @@
 import CharacterDetails from "@/components/characters/CharacterDetails";
-import PageError from "@/components/shared/PageError";
 import client from "@/lib/gql/apolloClient";
 import { GET_CHARACTER_DETAIL } from "@/lib/gql/queries";
 import { GetCharacterDetailData } from "@/types/characters";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 interface CharacterDetailParams {
   id: string;
@@ -62,25 +62,16 @@ export default async function CharacterDetailsPage({
   const { id } = await params;
 
   let character = null;
-  let error: Error | null = null;
 
-  try {
-    const { data } = await client.query<GetCharacterDetailData>({
-      query: GET_CHARACTER_DETAIL,
-      variables: { id },
-    });
-    character = data?.character;
-  } catch (e) {
-    error = e as Error;
-  }
+  const { data } = await client.query<GetCharacterDetailData>({
+    query: GET_CHARACTER_DETAIL,
+    variables: { id },
+  });
 
-  if (error) {
-    return (
-      <PageError
-        title="Error loading character information"
-        description={error.message}
-      />
-    );
+  character = data?.character;
+
+  if (!character) {
+    notFound();
   }
 
   return (
