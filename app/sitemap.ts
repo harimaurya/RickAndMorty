@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL;
+  const base = process.env.NEXT_PUBLIC_BASE_URL;
   return [
     { url: `${base}/`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${base}/information`, changeFrequency: "daily", priority: 0.9 },
