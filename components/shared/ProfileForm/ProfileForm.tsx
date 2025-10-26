@@ -7,7 +7,7 @@ import { Field, FieldGroup, FieldLabel, FieldSet } from "../../ui/field";
 import { Input } from "../../ui/input";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/store/UserContext";
-import { saveProfileAction } from "@/app/actions/profile";
+import { saveProfileAction } from "@/app/actions/profile/profile";
 import { useFormStatus } from "react-dom";
 
 const initialFormState = {
