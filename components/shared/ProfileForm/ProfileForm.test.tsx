@@ -1,8 +1,12 @@
 import { describe, test, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfileForm from "./ProfileForm";
-import { customRender, mockFetch } from "@/test/utils/mock-helpers";
+import { customRender } from "@/test/utils/mock-helpers";
 import { MockUserContextProvider } from "@/store/MockUserContext";
+
+vi.mock("@/app/actions/profile/profile");
+
+import { saveProfileAction } from "@/app/actions/profile/profile";
 
 describe("ProfileForm", () => {
   // Define the specific mock user data you expect to be pre-filled
@@ -10,11 +14,7 @@ describe("ProfileForm", () => {
   const JOBTITLE = "Software Developer";
 
   beforeEach(() => {
-    mockFetch.mockReset();
-    mockFetch.mockResolvedValue({
-      ok: true,
-      json: async () => ({ success: true }),
-    } as Response);
+    vi.clearAllMocks();
   });
 
   test("should render form fields correctly", () => {
@@ -32,7 +32,7 @@ describe("ProfileForm", () => {
     ).toBeInTheDocument();
   });
 
-  test("should submit form with valid data", async () => {
+  test("should call saveProfileAction on form submit", async () => {
     render(<ProfileForm />);
 
     const usernameInput = screen.getByLabelText(/username/i);
@@ -48,10 +48,10 @@ describe("ProfileForm", () => {
     expect(usernameInput).toHaveValue(USERNAME);
     expect(jobtitleInput).toHaveValue(JOBTITLE);
 
-    fireEvent.submit(screen.getByRole("button", { name: /save changes/i }));
+    fireEvent.click(screen.getByRole("button", { name: /save changes/i }));
 
     await waitFor(() => {
-      expect(mockFetch).toHaveBeenCalledTimes(1);
+      expect(saveProfileAction).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -3,7 +3,7 @@
 import { COOKIE_OPTIONS } from "@/constants/appConfig";
 import { cookies } from "next/headers";
 
-interface FormState {
+export interface FormState {
   success: boolean;
   message: string;
 }

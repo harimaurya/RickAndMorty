@@ -13,6 +13,7 @@ export const mockRouter = {
   prefetch: vi.fn(),
   back: vi.fn(),
   forward: vi.fn(),
+  refresh: vi.fn(),
   pathname: "/",
   query: {},
 };
