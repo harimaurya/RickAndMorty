@@ -2,11 +2,12 @@ import { Character } from "@/types/characters";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import Link from "next/link";
+import { memo } from "react";
 
 interface CharacterCardProps {
   character: Character;
 }
-export default function CharacterCard({ character }: CharacterCardProps) {
+function CharacterCard({ character }: CharacterCardProps) {
   return (
     <Link href={`/information/${character.id}`} role="link">
       <Card className="cursor-pointer hover:shadow-lg transition-shadow overflow-hidden pt-0 gap-4">
@@ -31,3 +32,5 @@ export default function CharacterCard({ character }: CharacterCardProps) {
     </Link>
   );
 }
+
+export default memo(CharacterCard);

@@ -1,5 +1,6 @@
 import { getPaginationPages } from "@/lib/utils/utils";
 import { Button } from "../ui/button";
+import { memo, useMemo } from "react";
 
 interface PaginationsProps {
   currentPage: number;
@@ -7,12 +8,16 @@ interface PaginationsProps {
   handlePageChange: (page: number) => void;
 }
 
-export default function Paginations({
+function Paginations({
   currentPage,
   totalPages,
   handlePageChange,
 }: PaginationsProps) {
-  const pageNumbers = getPaginationPages(currentPage, totalPages);
+  const pageNumbers = useMemo(
+    () => getPaginationPages(currentPage, totalPages),
+    [currentPage, totalPages]
+  );
+
   return (
     <div className="flex flex-wrap justify-center items-center space-x-2 md:space-x-4 mt-8">
       <Button
@@ -67,3 +72,5 @@ export default function Paginations({
     </div>
   );
 }
+
+export default memo(Paginations);

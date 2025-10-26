@@ -5,12 +5,12 @@ import logo from "../../public/ricky-morty-logo.png";
 import Navbar from "./Navbar";
 import { useUserContext } from "@/store/UserContext";
 
-export default function SiteHeader() {
-  const navItems = [
-    { href: "/information", label: "Information" },
-    { href: "/profile", label: "Profile" },
-  ];
+const NAV_ITEMS = [
+  { href: "/information", label: "Information" },
+  { href: "/profile", label: "Profile" },
+];
 
+export default function SiteHeader() {
   const user = useUserContext();
 
   return (
@@ -26,7 +26,7 @@ export default function SiteHeader() {
           />
         </div>
         <div className="flex items-center">
-          <Navbar items={navItems} />
+          <Navbar items={NAV_ITEMS} />
           <div className="flex flex-col border-l pl-2 ml-2 sm:pl-4 sm:ml-4">
             <span className="text-xs sm:text-sm">{user?.username}</span>
             <span className="text-xs sm:text-xs">{user?.jobTitle}</span>
