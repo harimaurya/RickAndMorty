@@ -1,7 +1,6 @@
+import { GetCharacterDetailDocument } from "@/app/gql/graphql";
 import CharacterDetailsModal from "@/components/characters/CharacterDetailsModal";
 import client from "@/lib/gql/apolloClient";
-import { GET_CHARACTER_DETAIL } from "@/lib/gql/queries";
-import { GetCharacterDetailData } from "@/types/characters";
 
 interface CharacterDetailModalParams {
   id: string;
@@ -14,8 +13,8 @@ export default async function CharacterDetailsModalPage({
 }) {
   const { id } = await params;
 
-  const { data } = await client.query<GetCharacterDetailData>({
-    query: GET_CHARACTER_DETAIL,
+  const { data } = await client.query({
+    query: GetCharacterDetailDocument,
     variables: { id },
   });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Character } from "@/types/characters";
+import { CharacterDetailInfoFragment } from "@/app/gql/types";
 import {
   Dialog,
   DialogContent,
@@ -14,7 +14,7 @@ import CharacterDetails from "./CharacterDetails";
 import { useRouter } from "next/navigation";
 
 interface CharacterDetailModalProps {
-  character: Character;
+  character: CharacterDetailInfoFragment;
 }
 
 export default function CharacterDetailModal({

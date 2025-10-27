@@ -1,7 +1,7 @@
+import { GetCharacterDetailDocument } from "@/app/gql/graphql";
+import { CharacterDetailInfoFragment } from "@/app/gql/types";
 import CharacterDetails from "@/components/characters/CharacterDetails";
 import client from "@/lib/gql/apolloClient";
-import { GET_CHARACTER_DETAIL } from "@/lib/gql/queries";
-import { GetCharacterDetailData } from "@/types/characters";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
@@ -18,17 +18,18 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const { data } = await client.query<GetCharacterDetailData>({
-      query: GET_CHARACTER_DETAIL,
+    const { data } = await client.query({
+      query: GetCharacterDetailDocument,
       variables: { id },
     });
-    const c = data?.character;
-    if (!c) return { title: "Character not found" };
 
-    const title = `${c.name} — Character`;
-    const description = `${c.name} — ${c.species} · ${c.gender} · ${c.status}`;
+    const character = data?.character as CharacterDetailInfoFragment | null;
+    if (!character) return { title: "Character not found" };
+
+    const title = `${character?.name} — Character`;
+    const description = `${character?.name} — ${character?.species} · ${character?.gender} · ${character?.status}`;
     const url = `/information/${id}`;
-    const image = c.image;
+    const image = character.image;
 
     return {
       title,
@@ -39,7 +40,14 @@ export async function generateMetadata({
         description,
         url,
         images: image
-          ? [{ url: image, width: 300, height: 300, alt: c.name }]
+          ? [
+              {
+                url: image,
+                width: 300,
+                height: 300,
+                alt: (character.name as string) || "Character Image",
+              },
+            ]
           : undefined,
       },
       twitter: {
@@ -61,14 +69,12 @@ export default async function CharacterDetailsPage({
 }) {
   const { id } = await params;
 
-  let character = null;
-
-  const { data } = await client.query<GetCharacterDetailData>({
-    query: GET_CHARACTER_DETAIL,
+  const { data } = await client.query({
+    query: GetCharacterDetailDocument,
     variables: { id },
   });
 
-  character = data?.character;
+  const character = data?.character;
 
   if (!character) {
     notFound();
