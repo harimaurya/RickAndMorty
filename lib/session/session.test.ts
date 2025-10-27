@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, test } from "vitest";
+import { describe, expect, vi, beforeEach, test } from "vitest";
 
 import { getUserFromCookies } from "./session";
 import { cookies } from "next/headers";
