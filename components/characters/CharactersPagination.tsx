@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Paginations from "../shared/Pagination";
 import { memo, useCallback } from "react";
 
-interface CharactersPaginationProps {
+export interface CharactersPaginationProps {
   currentPage: number;
   totalPages: number;
 }

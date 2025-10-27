@@ -1,7 +1,7 @@
 import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
-interface PageErrorProps {
+export interface PageErrorProps {
   title?: string;
   description?: React.ReactNode;
 }

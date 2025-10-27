@@ -4,7 +4,7 @@ import Link from "next/link";
 import { memo } from "react";
 import { CharacterInfoFragment } from "@/app/gql/types";
 
-interface CharacterCardProps {
+export interface CharacterCardProps {
   character: CharacterInfoFragment;
 }
 function CharacterCard({ character }: CharacterCardProps) {
