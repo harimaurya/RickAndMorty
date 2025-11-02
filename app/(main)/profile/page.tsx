@@ -1,5 +1,5 @@
 import PageTitle from "@/components/shared/PageTitle";
-import ProfileForm from "@/components/shared/ProfileForm";
+import ProfileForm from "@/components/shared/ProfileForm/ProfileForm";
 
 export default function ProfilePage() {
   return (

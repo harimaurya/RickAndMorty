@@ -1,15 +1,8 @@
+import { COOKIE_OPTIONS } from "@/constants/appConfig";
 import { Profile } from "@/types/profile";
 import { NextRequest, NextResponse } from "next/server";
 
 type Body = Profile;
-
-const COOKIE_OPTIONS = {
-  // Set attributes appropriate for your environment. Adjust 'secure' when using HTTPS.
-  httpOnly: false, // set to true if you don't want client JS to read the cookie
-  path: "/",
-  sameSite: "lax" as const,
-  secure: process.env.NODE_ENV === "production",
-};
 
 export async function POST(req: NextRequest) {
   try {

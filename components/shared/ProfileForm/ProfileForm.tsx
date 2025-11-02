@@ -1,14 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardDescription } from "../ui/card";
-import { Field, FieldGroup, FieldLabel, FieldSet } from "../ui/field";
-import { Input } from "../ui/input";
+import { useState, useEffect, useActionState } from "react";
+import { Button } from "../../ui/button";
+import { Card, CardContent, CardDescription } from "../../ui/card";
+import { Field, FieldGroup, FieldLabel, FieldSet } from "../../ui/field";
+import { Input } from "../../ui/input";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/store/UserContext";
+import { saveProfileAction } from "@/app/actions/profile/profile";
+import { useFormStatus } from "react-dom";
 
-interface ProfileFormProps {
+const initialFormState = {
+  success: false,
+  message: "",
+};
+
+export interface ProfileFormProps {
   isRegister?: boolean;
   onSuccess?: () => void;
 }
@@ -17,54 +24,47 @@ export default function ProfileForm({
   isRegister,
   onSuccess,
 }: ProfileFormProps) {
-  const [username, setUsername] = useState("");
-  const [jobTitle, setJobTitle] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [formState, formAction] = useActionState(
+    saveProfileAction,
+    initialFormState
+  );
+
+  const { pending } = useFormStatus();
 
   const user = useUserContext();
   const router = useRouter();
 
+  const [username, setUsername] = useState("");
+  const [jobTitle, setJobTitle] = useState("");
+
+  const saveButtonText = isRegister ? "Let's go!" : "Save Changes";
+
+  // Pre-fill form fields if not in registration mode
   useEffect(() => {
-    if (!isRegister) {
-      setUsername(user?.username || "");
-      setJobTitle(user?.jobTitle || "");
+    if (!isRegister && user) {
+      setUsername(user.username || "");
+      setJobTitle(user.jobTitle || "");
     }
   }, [isRegister, user]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setSuccess(null);
-    setError(null);
-    setLoading(true);
-
-    try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Important: include credentials so the browser will accept Set-Cookie from the response
-        credentials: "same-origin",
-        body: JSON.stringify({ username, jobTitle }),
-      });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok) {
-        setError(data?.message || "Failed to register");
-      } else {
-        setSuccess("Profile updated successfully!");
-        if (onSuccess) onSuccess();
-        router.refresh();
+  // Handle reaction to form action state changes
+  useEffect(() => {
+    if (formState.success) {
+      if (onSuccess) {
+        onSuccess();
       }
-    } catch {
-      setError("Network error");
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const saveButtonText = isRegister ? "Let's go!" : "Save Changes";
+      if (isRegister) {
+        setUsername("");
+        setJobTitle("");
+      }
+
+      router.refresh();
+    }
+  }, [formState, onSuccess, router, isRegister]);
+
+  const displayMessage = formState.message;
+  const isSuccess = formState.success;
 
   return (
     <Card className="w-full max-w-md p-6 mx-auto">
@@ -77,13 +77,14 @@ export default function ProfileForm({
       )}
 
       <CardContent className="p-0">
-        <form onSubmit={handleSubmit}>
+        <form action={formAction}>
           <FieldSet>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="username">Username</FieldLabel>
                 <Input
                   id="username"
+                  name="username"
                   value={username}
                   placeholder="Enter your username"
                   type="text"
@@ -95,6 +96,7 @@ export default function ProfileForm({
                 <FieldLabel htmlFor="jobtitle">Job Title</FieldLabel>
                 <Input
                   id="jobtitle"
+                  name="jobtitle"
                   value={jobTitle}
                   placeholder="Enter your job title"
                   type="text"
@@ -108,15 +110,22 @@ export default function ProfileForm({
             <Button
               type="submit"
               className="bg-lime-500 hover:bg-lime-600"
-              disabled={loading}
+              disabled={pending}
             >
-              {loading ? "Saving..." : saveButtonText}
+              {pending ? "Saving..." : saveButtonText}
             </Button>
           </Field>
         </form>
         <div className="mt-4">
-          {error && <p className="text-sm text-red-600">{error}</p>}
-          {success && <p className="text-sm text-green-600">{success}</p>}
+          {displayMessage && (
+            <p
+              className={`text-sm ${
+                isSuccess ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {displayMessage}
+            </p>
+          )}
         </div>
       </CardContent>
     </Card>

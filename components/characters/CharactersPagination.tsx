@@ -2,22 +2,26 @@
 
 import { useRouter } from "next/navigation";
 import Paginations from "../shared/Pagination";
+import { memo, useCallback } from "react";
 
-interface CharactersPaginationProps {
+export interface CharactersPaginationProps {
   currentPage: number;
   totalPages: number;
 }
 
-export default function CharactersPagination({
+function CharactersPagination({
   currentPage,
   totalPages,
 }: CharactersPaginationProps) {
   const router = useRouter();
 
-  const handlePageChange = (page: number) => {
-    // Update the URL with the new page number
-    router.push(`/information?page=${page}`);
-  };
+  const handlePageChange = useCallback(
+    (page: number) => {
+      router.push(`/information?page=${page}`);
+    },
+    [router]
+  );
+
   return (
     <Paginations
       currentPage={currentPage}
@@ -26,3 +30,5 @@ export default function CharactersPagination({
     />
   );
 }
+
+export default memo(CharactersPagination);

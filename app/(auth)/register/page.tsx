@@ -2,7 +2,7 @@
 
 import logo from "../../../public/ricky-morty-logo.png";
 import Image from "next/image";
-import ProfileForm from "@/components/shared/ProfileForm";
+import ProfileForm from "@/components/shared/ProfileForm/ProfileForm";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
